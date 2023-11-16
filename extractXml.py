@@ -1,11 +1,16 @@
 import xml.etree.ElementTree as ET
 
-# Add more namespaces if needed
-namespaces = {'soap': 'http://schemas.xmlsoap.org/soap/envelope/'}
+
+def print_element_info(elem, depth=0):
+    indent = "  " * depth
+    print(f"{indent}{elem.tag}: {elem.attrib}")
+    for child in elem:
+        print_element_info(child, depth + 1)
 
 
-tree = ET.parse('brugopeningen.xml')
+# Parse the XML file
+tree = ET.parse('brugopeningen4.xml')
 root = tree.getroot()
 
-for child in root.findall('.//soap:Body', namespaces):  # Using the namespace
-    print(child.tag, child.attrib)
+# Start exploring from the root
+print_element_info(root)
