@@ -13,7 +13,8 @@ tree = ET.parse('brugopeningen.xml')
 root = tree.getroot()
 
 # Define the substring you are looking for in the ID
-target_substring = "NLSPL002120533100119"
+# target_substring = "NLSPL002120533100119"
+target_substring = "NLLID002060528100496"  # leiderdorpsebrug
 
 # Find elements whose ID attribute contains the specific substring
 for elem in root.iter():

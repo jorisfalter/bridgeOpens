@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:sit="http://datex2.eu/schema/3/situation" version="3.4" targetNamespace="http://datex2.eu/schema/3/situation" xmlns:com="http://datex2.eu/schema/3/common" xmlns:loc="http://datex2.eu/schema/3/locationReferencing" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://datex2.eu/schema/3/locationReferencing" schemaLocation="DATEXII_3_LocationReferencing.xsd" />
+  <xs:import namespace="http://datex2.eu/schema/3/common" schemaLocation="DATEXII_3_Common.xsd" />
+  <xs:complexType name="_ComplianceOptionEnum">
+    <xs:simpleContent>
+      <xs:extension base="sit:ComplianceOptionEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_GeneralNetworkManagementTypeEnum">
+    <xs:simpleContent>
+      <xs:extension base="sit:GeneralNetworkManagementTypeEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_OperatorActionStatusEnum">
+    <xs:simpleContent>
+      <xs:extension base="sit:OperatorActionStatusEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_ProbabilityOfOccurrenceEnum">
+    <xs:simpleContent>
+      <xs:extension base="sit:ProbabilityOfOccurrenceEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_SeverityEnum">
+    <xs:simpleContent>
+      <xs:extension base="sit:SeverityEnum">
+        <xs:attribute name="_extendedValue" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="_SituationVersionedReference">
+    <xs:complexContent>
+      <xs:extension base="com:VersionedReference">
+        <xs:attribute name="targetClass" type="xs:string" use="required" fixed="sit:Situation" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="ComplianceOptionEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="advisory" />
+      <xs:enumeration value="mandatory" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="GeneralNetworkManagement">
+    <xs:complexContent>
+      <xs:extension base="sit:NetworkManagement">
+        <xs:sequence>
+          <xs:element name="generalNetworkManagementType" type="sit:_GeneralNetworkManagementTypeEnum" minOccurs="1" maxOccurs="1" />
+          <xs:element name="_generalNetworkManagementExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="GeneralNetworkManagementTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="bridgeSwingInOperation" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="NetworkManagement" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="sit:OperatorAction">
+        <xs:sequence>
+          <xs:element name="complianceOption" type="sit:_ComplianceOptionEnum" minOccurs="1" maxOccurs="1" />
+          <xs:element name="applicableForTrafficDirection" type="loc:_DirectionEnum" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_networkManagementExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="OperatorAction" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="sit:SituationRecord">
+        <xs:sequence>
+          <xs:element name="operatorActionStatus" type="sit:_OperatorActionStatusEnum" minOccurs="0" maxOccurs="1" />
+          <xs:element name="_operatorActionExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="OperatorActionStatusEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="requested" />
+      <xs:enumeration value="approved" />
+      <xs:enumeration value="beingImplemented" />
+      <xs:enumeration value="implemented" />
+      <xs:enumeration value="beingTerminated" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ProbabilityOfOccurrenceEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="certain" />
+      <xs:enumeration value="probable" />
+      <xs:enumeration value="riskOf" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SeverityEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="highest" />
+      <xs:enumeration value="high" />
+      <xs:enumeration value="medium" />
+      <xs:enumeration value="low" />
+      <xs:enumeration value="lowest" />
+      <xs:enumeration value="none" />
+      <xs:enumeration value="unknown" />
+      <xs:enumeration value="_extended" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="Situation">
+    <xs:sequence>
+      <xs:element name="overallSeverity" type="sit:_SeverityEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="situationVersionTime" type="com:DateTime" minOccurs="1" maxOccurs="1" />
+      <xs:element name="headerInformation" type="com:HeaderInformation" />
+      <xs:element name="situationRecord" type="sit:SituationRecord" maxOccurs="unbounded" />
+      <xs:element name="relatedSituation" type="sit:SituationReference" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="informationManager" type="com:InternationalIdentifier" minOccurs="0" />
+      <xs:element name="situationSummary" type="sit:SituationRecord" minOccurs="0" />
+      <xs:element name="_situationExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="SituationPublication">
+    <xs:complexContent>
+      <xs:extension base="com:PayloadPublication">
+        <xs:sequence>
+          <xs:element name="situation" type="sit:Situation" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_situationPublicationExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SituationRecord" abstract="true">
+    <xs:sequence>
+      <xs:element name="situationRecordCreationReference" type="com:String" minOccurs="0" maxOccurs="1" />
+      <xs:element name="situationRecordCreationTime" type="com:DateTime" minOccurs="1" maxOccurs="1" />
+      <xs:element name="situationRecordObservationTime" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+      <xs:element name="situationRecordVersionTime" type="com:DateTime" minOccurs="1" maxOccurs="1" />
+      <xs:element name="situationRecordFirstSupplierVersionTime" type="com:DateTime" minOccurs="0" maxOccurs="1" />
+      <xs:element name="probabilityOfOccurrence" type="sit:_ProbabilityOfOccurrenceEnum" minOccurs="1" maxOccurs="1" />
+      <xs:element name="source" type="com:Source" />
+      <xs:element name="validity" type="com:Validity" />
+      <xs:element name="locationReference" type="loc:LocationReference" />
+      <xs:element name="_situationRecordExtension" type="com:_ExtensionType" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="version" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="SituationReference">
+    <xs:complexContent>
+      <xs:extension base="com:GlobalReference">
+        <xs:sequence>
+          <xs:element name="objectReference" type="sit:_SituationVersionedReference" minOccurs="1" maxOccurs="1" />
+          <xs:element name="_situationReferenceExtension" type="com:_ExtensionType" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>
