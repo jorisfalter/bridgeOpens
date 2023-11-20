@@ -1,6 +1,7 @@
 import requests
 import gzip
-import shutil
+import xml.etree.ElementTree as ET
+
 
 # URL of the file to be downloaded
 file_url = "https://opendata.ndw.nu/brugopeningen.xml.gz"
@@ -23,9 +24,30 @@ input_file = 'brugopeningen.xml.gz'
 output_file = 'brugopeningen.xml'
 
 # Open the gzip file in read mode and the output file in write mode
-with gzip.open(input_file, 'rb') as f_in:
-    with open(output_file, 'wb') as f_out:
-        # Copy the decompressed data to the output file
-        shutil.copyfileobj(f_in, f_out)
+with gzip.open(input_file, 'rt', encoding='utf-8') as f_in:
+    xml_content = f_in.read()
 
 print("Decompression complete.")
+# print(xml_content)
+
+
+# def print_element_info(elem, indent=""):
+#     text = elem.text.strip() if elem.text is not None else None
+#     print(f"{indent}{elem.tag}: {elem.attrib}, Text: {text}")
+#     for child in elem:
+#         print_element_info(child, indent + "  ")
+
+
+# Parse the XML file
+root = ET.fromstring(xml_content)
+
+# Define the substring you are looking for in the ID
+target_substring = "NLSPL002120533100119"
+# target_substring = "NLLID002060528100496"  # leiderdorpsebrug
+
+# Find elements whose ID attribute contains the specific substring
+for elem in root.iter():
+    id_value = elem.get('id')
+    if id_value and target_substring in id_value:
+        print("Found element with ID containing target substring:")
+        # print_element_info(elem)
