@@ -17,9 +17,8 @@ def print_element_info(elem, indent=""):
     for child in elem:
         print_element_info(child, indent + "  ")
 
+
 # make data insertable into db
-
-
 def parse_element_info(elem):
     # Create a dictionary to store element info
     elem_dict = {
@@ -59,14 +58,14 @@ while True:
     # Send a GET request to the URL
     response = requests.get(file_url)
 
-    # Check if the request was successful
-    if response.status_code == 200:
-        # Write the content to a file
-        with open("brugopeningen.xml.gz", "wb") as file:
-            file.write(response.content)
-        print("Download completed successfully.")
-    else:
-        print("Failed to download the file.")
+    # # Check if the request was successful
+    # if response.status_code == 200:
+    #     # Write the content to a file
+    #     with open("brugopeningen.xml.gz", "wb") as file:
+    #         file.write(response.content)
+    #     print("Download completed successfully.")
+    # else:
+    #     print("Failed to download the file.")
 
     # Check if the request was successful
     if response.status_code == 200:
@@ -93,11 +92,11 @@ while True:
                 dataBridge = parse_element_info(elem)
 
                 # Insert into MongoDB
-                # result = collection.insert_one(dataBridge)
-                now = datetime.datetime.now()
-                collection.insert_one({"test1": now})
+                result = collection.insert_one(dataBridge)
 
         print("Processing completed successfully.")
+        now = datetime.datetime.now()
+        collection.insert_one({"test1": now})
     else:
         print("Failed to download the file.")
 
