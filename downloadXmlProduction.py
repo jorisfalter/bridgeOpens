@@ -7,7 +7,7 @@ import pymongo
 import certifi
 from dotenv import load_dotenv
 import os
-import datetime
+# import datetime
 import time
 
 
@@ -95,8 +95,8 @@ while True:
                 result = collection.insert_one(dataBridge)
 
         print("Processing completed successfully.")
-        now = datetime.datetime.now()
-        collection.insert_one({"test1": now})
+        # now = datetime.datetime.now()
+        # collection.insert_one({"test1": now})
     else:
         print("Failed to download the file.")
 
