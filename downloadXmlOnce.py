@@ -1,6 +1,12 @@
+from pymongo import MongoClient
 import requests
 import gzip
 import xml.etree.ElementTree as ET
+import pymongo
+import certifi
+from dotenv import load_dotenv
+import os
+import datetime
 
 
 # URL of the file to be downloaded
@@ -31,11 +37,44 @@ print("Decompression complete.")
 # print(xml_content)
 
 
-# def print_element_info(elem, indent=""):
-#     text = elem.text.strip() if elem.text is not None else None
-#     print(f"{indent}{elem.tag}: {elem.attrib}, Text: {text}")
-#     for child in elem:
-#         print_element_info(child, indent + "  ")
+# print data in console
+def print_element_info(elem, indent=""):
+    text = elem.text.strip() if elem.text is not None else None
+    print(f"{indent}{elem.tag}: {elem.attrib}, Text: {text}")
+    for child in elem:
+        print_element_info(child, indent + "  ")
+
+
+# make data insertable into db
+def parse_element_info(elem):
+    # Create a dictionary to store element info
+    elem_dict = {
+        'tag': elem.tag,
+        'attributes': elem.attrib,
+        'text': elem.text.strip() if elem.text is not None else None,
+        'children': []
+    }
+
+    # Recursively parse child elements
+    for child in elem:
+        child_dict = parse_element_info(child)
+        elem_dict['children'].append(child_dict)
+
+    return elem_dict
+
+
+# initiate the DB
+ca = certifi.where()
+
+# Load environment variables from .env file
+load_dotenv()
+mongoPass = os.getenv("MONGO_ATLAS_PASS")
+
+client = pymongo.MongoClient(
+    f'mongodb+srv://joris:{mongoPass}@cluster0.igx7ca5.mongodb.net/?retryWrites=true&w=majority&connectTimeoutMS=5000', tlsCAFile=ca)
+
+db = client['bridgeOpenDb']
+collection = db['bridgeOpenCollection']
 
 
 # Parse the XML file
@@ -50,4 +89,10 @@ for elem in root.iter():
     id_value = elem.get('id')
     if id_value and target_substring in id_value:
         print("Found element with ID containing target substring:")
-        # print_element_info(elem)
+        print_element_info(elem)
+
+        # Parse the filtered element
+        dataBridge = parse_element_info(elem)
+
+        # Insert into MongoDB
+        result = collection.insert_one(dataBridge)
