@@ -1,9 +1,4 @@
-requests
-gzip
-io
-pymongo
-certifi
-os
-datetime
-time
-python-dotenv
+requests==2.27.1
+pymongo==4.5.0
+certifi==2023.7.22
+python-dotenv==1.0.0
