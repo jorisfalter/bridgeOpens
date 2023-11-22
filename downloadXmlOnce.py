@@ -24,7 +24,6 @@ if response.status_code == 200:
 else:
     print("Failed to download the file.")
 
-
 # Specify the names of the input and output files
 input_file = 'brugopeningen.xml.gz'
 output_file = 'brugopeningen.xml'
@@ -34,7 +33,6 @@ with gzip.open(input_file, 'rt', encoding='utf-8') as f_in:
     xml_content = f_in.read()
 
 print("Decompression complete.")
-# print(xml_content)
 
 
 # print data in console
@@ -44,8 +42,9 @@ def print_element_info(elem, indent=""):
     for child in elem:
         print_element_info(child, indent + "  ")
 
-
 # make data insertable into db
+
+
 def parse_element_info(elem):
     # Create a dictionary to store element info
     elem_dict = {
@@ -75,7 +74,6 @@ client = pymongo.MongoClient(
 
 db = client['bridgeOpenDb']
 collection = db['bridgeOpenCollection']
-
 
 # Parse the XML file
 root = ET.fromstring(xml_content)
