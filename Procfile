@@ -1,1 +1,1 @@
-clock: python downloadXmlProduction.py
+clock: python3 downloadXmlProduction.py
