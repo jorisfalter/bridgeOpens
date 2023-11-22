@@ -93,8 +93,9 @@ while True:
                 dataBridge = parse_element_info(elem)
 
                 # Insert into MongoDB
-                result = collection.insert_one(dataBridge)
-                break
+                # result = collection.insert_one(dataBridge)
+                now = datetime.datetime.now()
+                collection.insert_one({"test1": now})
 
         print("Processing completed successfully.")
     else:

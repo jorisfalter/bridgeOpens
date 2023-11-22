@@ -80,7 +80,8 @@ root = ET.fromstring(xml_content)
 
 # Define the substring you are looking for in the ID
 # target_substring = "NLSPL002120533100119"
-target_substring = "NLLID002060528100496"  # leiderdorpsebrug
+# target_substring = "NLLID002060528100496"  # leiderdorpsebrug
+target_substring = "NLSVG001300521600186"  # this one is open on isdebrugopen.nl
 
 # Find elements whose ID attribute contains the specific substring
 for elem in root.iter():
@@ -93,4 +94,4 @@ for elem in root.iter():
         dataBridge = parse_element_info(elem)
 
         # Insert into MongoDB
-        result = collection.insert_one(dataBridge)
+        # result = collection.insert_one(dataBridge)
