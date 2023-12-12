@@ -1,14 +1,16 @@
-from pymongo import MongoClient
-import requests
-import gzip
-import io
-import xml.etree.ElementTree as ET
-import pymongo
-import certifi
-from dotenv import load_dotenv
-import os
-# import datetime
 import time
+import os
+from dotenv import load_dotenv
+import certifi
+import pymongo
+import xml.etree.ElementTree as ET
+import io
+import gzip
+import requests
+from pymongo import MongoClient
+
+# This file downloads the xml every minute and stores it in mongodb
+# Instead we'll use the "isdebrugopen" website
 
 
 def print_element_info(elem, indent=""):
