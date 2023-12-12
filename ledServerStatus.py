@@ -4,18 +4,30 @@ from flask import Flask
 app = Flask(__name__)
 
 
+@app.route('/')
+def test_ft():
+    return 'ok', 200, {'Content-Type': 'text/plain'}
+
+
 @app.route('/ledstatus')
 def led_status():
-    # Logic to determine whether the LED should be on or off
-    led_state = get_led_state()  # This function is hypothetical
-    return 'on' if led_state else 'off', 200, {'Content-Type': 'text/plain'}
+    # Use the function to determine the LED state
+    if get_led_state():
+        return 'on', 200, {'Content-Type': 'text/plain'}
+    else:
+        return 'off', 200, {'Content-Type': 'text/plain'}
 
 
 def get_led_state():
-    # Your logic here to determine the LED state
-    # For example, it could check a database or a file
-    return True  # or False, depending on the desired state
+    # Get the current time
+    current_time = time.time()
+
+    # Find the time modulo 8 seconds (5 seconds on, 3 seconds off)
+    cycle_time = current_time % 8
+
+    # If the modulo is less than 5, the LED should be on
+    return cycle_time < 5
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=3000)
