@@ -28,7 +28,7 @@ def connect_to_wifi(ssid, password, timeout=10):
 
 # Replace with your network credentials
 ssid = 'wade  5G'
-password = 'thao1305'
+password = ''
 
 # Connect to Wi-Fi
 connected = connect_to_wifi(ssid, password)
