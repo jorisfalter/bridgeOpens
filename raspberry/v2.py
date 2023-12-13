@@ -3,44 +3,43 @@ import urequests
 import time
 from machine import Pin
 
+wlan = network.WLAN(network.STA_IF)
 
-# this one includes network connection
+
+def connect_to_wifi(ssid, password, timeout=10):
+    wlan.active(True)
+
+    if not wlan.isconnected():
+        print("Connecting to Wi-Fi...")
+        wlan.connect(ssid, password)
+
+        # Wait for connection with a timeout
+        start_time = time.ticks_ms()
+        while not wlan.isconnected():
+            if time.ticks_diff(time.ticks_ms(), start_time) > timeout * 3000:
+                print("Connection timed out.")
+                return False
+            time.sleep(1)
+
+    print("Connected to Wi-Fi.")
+    print("Network config:", wlan.ifconfig())
+    return True
+
+
 # Replace with your network credentials
 ssid = 'wade  5G'
 password = 'thao1305'
 
 # Connect to Wi-Fi
-wlan = network.WLAN(network.STA_IF)
-wlan.active(True)
-wlan.connect(ssid, password)
+connected = connect_to_wifi(ssid, password)
 
-# Wait for connection to be established
-while not wlan.isconnected():
-    pass
+if connected:
 
-# connect to server > postpone for now, I only want to see the connection
-# The URL of your server endpoint that sends the LED command
-server_url = 'http://your.server.com/ledstatus'
+    led = machine.Pin("LED", machine.Pin.OUT)
 
-# Setup the onboard LED
-led = Pin(25, Pin.OUT)
+    # Blink the onboard LED
+    while wlan.isconnected():  # check if the connection is made
+        # while True:
+        led.value(1)  # Set the LED to on
 
-# Function to get the LED status from the server
-
-
-def get_led_status(url):
-    response = urequests.get(url)
-    if response.text == 'on':
-        led.value(1)
-    elif response.text == 'off':
-        led.value(0)
-    response.close()
-
-
-# Main loop to poll the server and update the LED
-while True:
-    try:
-        get_led_status(server_url)
-        time.sleep(1)  # Poll every second, adjust as needed
-    except:
-        pass  # Handle exceptions (e.g., network errors)
+    print("Wi-Fi connection lost. Attempting to reconnect...")
