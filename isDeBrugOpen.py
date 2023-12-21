@@ -35,4 +35,4 @@ while True:
     else:
         print("Failed to fetch the webpage.")
 
-    time.sleep(15)  # Sleep for 60 seconds
+    time.sleep(15)  # Sleep for 15 seconds
