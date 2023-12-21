@@ -1,1 +1,1 @@
-clock: python3 isDeBrugOpen.py
+clock: python3 ledServerStatus.py
