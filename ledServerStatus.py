@@ -64,15 +64,21 @@ def get_led_state():
 
 @app.route('/ledstatus')
 def led_status():
-    # while True:
     # Use the function to determine the LED state
-    if get_led_state():
+    # need to add additional error handling here based on the errors from the function
+    gls_response = get_led_state()
+    if gls_response:
         return 'open', 200, {'Content-Type': 'text/plain'}
     else:
         return 'gesloten', 200, {'Content-Type': 'text/plain'}
 
-    # time.sleep(15)  # Sleep for 15 seconds
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000)
+
+
+# I'm not sure I need this, maybe the Raspberry triggers the function
+# while True:
+#     led_status()
+
+#     time.sleep(15)  # Sleep for 15 seconds
