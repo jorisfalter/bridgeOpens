@@ -1,1 +1,1 @@
-clock: python3 ledServerStatus.py
+web: python3 ledServerStatus.py
