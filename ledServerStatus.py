@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 app = Flask(__name__)
 
 
+# The default route
 @app.route('/')
 def test_ft():
     return 'ok', 200, {'Content-Type': 'text/plain'}
@@ -46,8 +47,10 @@ def get_led_state():
 
             if "nee" in status_text.lower():
                 print("Nee")
+                return False
             elif "ja" in status_text.lower():
                 print("Ja")
+                return True
             else:
                 print("Status not found or unrecognized.")
         else:
@@ -58,11 +61,14 @@ def get_led_state():
 
 @app.route('/ledstatus')
 def led_status():
+    # while True:
     # Use the function to determine the LED state
     if get_led_state():
-        return 'on', 200, {'Content-Type': 'text/plain'}
+        return 'open', 200, {'Content-Type': 'text/plain'}
     else:
-        return 'off', 200, {'Content-Type': 'text/plain'}
+        return 'gesloten', 200, {'Content-Type': 'text/plain'}
+
+    # time.sleep(15)  # Sleep for 15 seconds
 
 
 if __name__ == '__main__':
