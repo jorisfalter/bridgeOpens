@@ -53,10 +53,13 @@ def get_led_state():
                 return True
             else:
                 print("Status not found or unrecognized.")
+                return ("Not found")
         else:
             print("Status section not found in the HTML.")
+            return ("Not found")
     else:
         print("Failed to fetch the webpage.")
+        return ("Can't Load Webpage")
 
 
 @app.route('/ledstatus')
