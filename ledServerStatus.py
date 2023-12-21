@@ -1,9 +1,9 @@
 # this file is a test case of a server giving an indication
 
 from flask import Flask
-import time
 import requests
 from bs4 import BeautifulSoup
+import os
 
 app = Flask(__name__)
 
@@ -74,7 +74,9 @@ def led_status():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3000)
+    # Get port from environment variable or default to 3000
+    port = int(os.environ.get('PORT', 3000))
+    app.run(host='0.0.0.0', port=port)
 
 
 # I'm not sure I need this, maybe the Raspberry triggers the function
