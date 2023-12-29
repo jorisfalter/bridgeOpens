@@ -28,8 +28,8 @@ def get_led_state():
     # real case
     # URL of the page to check
     # Replace with the actual URL
-    url = 'https://www.isdebrugopen.nl/zuid-holland/leiderdorp/leiderdorpsebrug'
-    # url = 'https://www.isdebrugopen.nl/zeeland/terneuzen/oostsluis-binnenhoofd-brug'
+    # url = 'https://www.isdebrugopen.nl/zuid-holland/leiderdorp/leiderdorpsebrug'
+    url = 'https://www.isdebrugopen.nl/zeeland/terneuzen/oostsluis-binnenhoofd-brug'
 
     # Send a GET request to the URL
     response = requests.get(url)
