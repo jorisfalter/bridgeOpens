@@ -66,16 +66,16 @@ def get_led_state():
 def led_status():
   
  
-    ### for testing purposes
-    # return 'open', 200, {'Content-Type': 'text/plain'}
+    ## for testing purposes
+    return 'open', 200, {'Content-Type': 'text/plain'}
 
     ### Use the function to determine the LED state
     ### need to add additional error handling here based on the errors from the function
-    gls_response = get_led_state()
-    if gls_response:
-        return 'open', 200, {'Content-Type': 'text/plain'}
-    else:
-        return 'gesloten', 200, {'Content-Type': 'text/plain'}
+    # gls_response = get_led_state()
+    # if gls_response:
+    #     return 'open', 200, {'Content-Type': 'text/plain'}
+    # else:
+    #     return 'gesloten', 200, {'Content-Type': 'text/plain'}
 
 
 if __name__ == '__main__':
