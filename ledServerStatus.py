@@ -67,7 +67,7 @@ def led_status():
   
  
     ## for testing purposes
-    return 'open', 200, {'Content-Type': 'text/plain'}
+    return 'gesloten', 200, {'Content-Type': 'text/plain'}
 
     ### Use the function to determine the LED state
     ### need to add additional error handling here based on the errors from the function
